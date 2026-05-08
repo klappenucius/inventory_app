@@ -143,7 +143,7 @@ class ContactPerson(db.Model):
     # batch_assignees
 
 class AccessoryBatch(db.Model):
-    __tablename__="accessoryBatch"
+    __tablename__="accessoryBatchs"
 
     id=db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     name=db.Column(db.integer, nullable=False, autoincrement=True)
@@ -153,3 +153,21 @@ class AccessoryBatch(db.Model):
     available_quantity=db.Column(db.Integer, nullable=False)
 
     accessories=db.Relationship("Accessory", backref="batch")
+
+class Assignment(db.Model):
+    __tablename__="assignments"
+
+    id=db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
+
+    admin_id=db.Column(db.Integer, db.ForeignKey("admins.id"), nullable=True)
+    user_id=db.Relationship (db.Integer, db.ForeignKey("users.id"), nullable=True)
+
+    asset_id=db.Column(db.Integer, db.ForeignKey("assets.id"), nullable=True)
+    accessory_id=db.Column(db.Integer, db.ForeginKey("accessories.id"), nullable=True)
+
+    assigned_at=db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    returned_at=db.Column(db.DateTime, nullable=True)
+    notes=db.Column(db.Text, nullable=True)
+
+    
+
